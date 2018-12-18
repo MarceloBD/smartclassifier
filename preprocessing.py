@@ -3,6 +3,7 @@ import copy
 
 FILENAME = "data_estag_ds.tsv"
 WORDS_FOR_PRECLASSIFIER = ["smartphone", "celular", "galaxy", "motog", "iphone", "motorola"]
+NOT_WORDS_FOR_PRECLASSIFIER = ["capa"]
 
 class Preprocessing:
 
@@ -27,8 +28,11 @@ class Preprocessing:
 				for defined_word in WORDS_FOR_PRECLASSIFIER:
 					if(description[word_index] == defined_word):
 						instance[2] = "smartphone"
-					instance[1] = description
-		return instances
+				for defined_word in NOT_WORDS_FOR_PRECLASSIFIER:
+					if(description[word_index] == defined_word):
+						instance[2] = "nao-smartphone"
+					#instance[1] = description
+		return instances[1:]
 
 	def bag_of_words(self, instances):
 		bow ={"nao-smartphone":{}, "smartphone":{}}
