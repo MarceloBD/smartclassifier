@@ -14,20 +14,25 @@ class Naive:
 		x = [instance[1] for instance in instances]
 		X_train_counts = count_vect.fit_transform(x)
 
+		tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
+		X_train_tf = tf_transformer.transform(X_train_counts)
+
 		tfidf_transformer = TfidfTransformer()
-		X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+		#X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 		
-		mnb = MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)
+		mnb = MultinomialNB()
 		#instances = np.array(instances)
 		#x = [instance[1] for instance in instances]
 		#print(x)
 		y =  [((instance[2])) for instance in instances]
 
-		y_pred = mnb.fit(X_train_tfidf, y)
+		y_pred = mnb.fit(X_train_tf, y)
 		
-		docs_new = ['smartphone', 'capa galaxy s5', 'boneca', 'apple']
+		docs_new = ['smartphone', 'capinha', 'boneca azul verde s2 colorida', 'apple']
+		
 		X_new_counts = count_vect.transform(docs_new)
-		X_new_tfidf = tfidf_transformer.transform(X_new_counts)
+		tf_transformer = TfidfTransformer(use_idf=False).fit(X_new_counts)
+		X_new_tfidf = tf_transformer.transform(X_new_counts)
 
 		predicted = y_pred.predict(X_new_tfidf)
 

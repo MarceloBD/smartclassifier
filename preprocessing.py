@@ -28,9 +28,11 @@ class Preprocessing:
 				for defined_word in WORDS_FOR_PRECLASSIFIER:
 					if(description[word_index] == defined_word):
 						instance[2] = "smartphone"
+						break
 				for defined_word in NOT_WORDS_FOR_PRECLASSIFIER:
 					if(description[word_index] == defined_word):
 						instance[2] = "nao-smartphone"
+						break
 					#instance[1] = description
 		return instances[1:]
 
