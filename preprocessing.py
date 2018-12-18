@@ -2,8 +2,9 @@ import csv
 import copy
 
 FILENAME = "data_estag_ds.tsv"
-WORDS_FOR_PRECLASSIFIER = ["smartphone", "celular", "galaxy", "motog", "iphone", "motorola"]
-NOT_WORDS_FOR_PRECLASSIFIER = ["capa"]
+WORDS_FOR_PRECLASSIFIER = ["smartphone", "celular", "iphone", "samsung", "motorola"]
+NOT_WORDS_FOR_PRECLASSIFIER = ["capa", "bumper", "tablet", "kit", "película", "repetidor", 
+	"bracadeira", "cabo", "antena",  "suporte"]
 
 class Preprocessing:
 
@@ -29,6 +30,7 @@ class Preprocessing:
 					if(description[word_index] == defined_word):
 						instance[2] = "smartphone"
 						break
+			for word_index in range(len(description)):
 				for defined_word in NOT_WORDS_FOR_PRECLASSIFIER:
 					if(description[word_index] == defined_word):
 						instance[2] = "nao-smartphone"
