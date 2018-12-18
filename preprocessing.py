@@ -27,4 +27,14 @@ class Preprocessing:
 				for defined_word in WORDS_FOR_PRECLASSIFIER:
 					if(description[word_index] == defined_word):
 						instance[2] = "smartphone"
-			print(instance)
+					instance[1] = description
+		return instances
+
+	def bag_of_words(self, instances):
+		bow ={"nao-smartphone":{}, "smartphone":{}}
+		for instance in instances:
+			for word in instance[1]:
+				bow[instance[2]][word] = bow[instance[2]].get(word, 0) + 1 
+		print(bow)
+
+		return bow
