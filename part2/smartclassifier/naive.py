@@ -9,9 +9,26 @@ class Naive:
 	def __init__(self):
 		return
 
-	def naive_bayes(self, train_instances, dic, test_instances):
+
+	def clean_synonymous_response(self, synonymous_response):
+		synonymous = []
+		for sym in synonymous_response:
+			#print(sym)
+			synonymous += [sym["word"]]
+		return synonymous
+
+	def naive_bayes(self, train_instances, dic, test_instances, synonymous_response):
+		
+		synonymous = self.clean_synonymous_response(synonymous_response)
+		synonymous = ' '.join(synonymous)
 		
 		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		train_instances += [['category synonymous', synonymous, 'smartphone']]
+		train_instances += [['category synonymous', synonymous, 'smartphone']]
+		train_instances += [['category synonymous', synonymous, 'smartphone']]
 		
 		count_vect = CountVectorizer()
 		x = [instance[1] for instance in train_instances]
