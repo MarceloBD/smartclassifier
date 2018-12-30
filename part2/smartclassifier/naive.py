@@ -9,7 +9,10 @@ class Naive:
 	def __init__(self):
 		return
 
-	def naive_bayes(self, instances):
+	def naive_bayes(self, instances, dic):
+		
+		instances += [['dictionary from github', dic, 'nao-smartphone']]
+		
 		count_vect = CountVectorizer()
 		x = [instance[1] for instance in instances]
 		X_train_counts = count_vect.fit_transform(x)
@@ -22,7 +25,7 @@ class Naive:
         
 		y_pred = mnb.fit(X_train_tfidf, y)
 
-		docs_new = ['samsung celular', 'capa samsung', 'cororido azul boneca', 'apple']
+		docs_new = ['samsung', 'capa smartphone', 'colorido azul boneca', 'apple']
 		#docs_new = x
 		
 		X_new_counts = count_vect.transform(docs_new)

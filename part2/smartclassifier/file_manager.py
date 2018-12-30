@@ -1,7 +1,10 @@
 import csv
 import copy
+import io
+
 
 FILENAME = "train_data.tsv"
+DICTIONARY = "portuguese_words.txt"
 
 class File_manager:
 
@@ -15,4 +18,9 @@ class File_manager:
 			for instance in tsvreader:
 				instances += [instance]
 		return instances[1:]
+	
+	def read_dictionary(self):
+		with io.open(DICTIONARY, mode="r", encoding="utf-8") as txtfile:
+			txtread = txtfile.read()
+		return ' '.join(txtread.splitlines())
 
