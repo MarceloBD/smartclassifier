@@ -75,7 +75,8 @@ def get_data_from_title(smartphone):
 				size += title[j]
 			break
 		if(title[i] == '.' or title[i] == ','):
-#			print('hereee', title[i])
+			if(not title[i-1].isdigit() or not title[i+1].isdigit()):
+				break
 			while(title[i] != " "):
 				i -= 1
 			
@@ -85,6 +86,7 @@ def get_data_from_title(smartphone):
 				if(title[j] == " "):
 					break
 				size += title[j]
+			break
 	specs += [size]
 	smartphone += [specs]
 	return smartphone
