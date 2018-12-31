@@ -17,11 +17,31 @@ class Naive:
 			synonymous += [sym["word"]]
 		return synonymous
 
+
+	def transform_string_one_word_document(self, words, category, source):
+		l = []
+		for word in words.split():
+			l += [[source, word, category]]
+		return l
+	
 	def naive_bayes(self, train_instances, dic, test_instances, synonymous_response):
 		
 		synonymous = self.clean_synonymous_response(synonymous_response)
 		synonymous = ' '.join(synonymous)
 		
+		sym_list = self.transform_string_one_word_document(synonymous, 'smartphone', 'category with datamuse')
+		dic_list = self.transform_string_one_word_document(dic, 'nao-smartphone', 'dictionary from github')
+		
+		
+		'''
+		for l in sym_list:
+			train_instances += [l]
+		for l in sym_list:
+			train_instances += [l]
+		for l in dic_list:
+			train_instances += [l]
+		'''
+		
 		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
 		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
 		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
@@ -29,6 +49,8 @@ class Naive:
 		train_instances += [['category synonymous', synonymous, 'smartphone']]
 		train_instances += [['category synonymous', synonymous, 'smartphone']]
 		train_instances += [['category synonymous', synonymous, 'smartphone']]
+		
+		
 		
 		count_vect = CountVectorizer()
 		x = [instance[1] for instance in train_instances]
