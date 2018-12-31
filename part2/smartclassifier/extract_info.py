@@ -3,8 +3,22 @@ import numpy as np
 
 TEST_FILENAME = "results.tsv"
 MAX_RAM_DIGITS = 10
-COLORS = ['azul', 'verde', 'preto', 'branco', 'prata', 'platinum', 'indigo', 'dourado']
+COLORS = ['azul', 'verde', 'preto', 'branco', 'prata', 'platinum', 'indigo', 'dourado', 'ouro', 'cinza', 'índigo']
 MAX_SIZE_DIGITS = 10
+STOP_WORDS = ["com", "tela"]
+
+def is_word_in_string(string):
+	for word in STOP_WORDS+COLORS:
+		if(' '+ word+' ' in string.lower() or ' '+ word+',' in string.lower()):
+			for i in range(len(string)-2, 0, -1):
+				if( string[i] == " "):
+					break
+				else:
+					
+					string = string[:i]
+					print(string)
+			return [True, string]
+	return [False, string]
 
 def get_data_from_title(smartphone):
 	title = smartphone[1]
@@ -13,12 +27,14 @@ def get_data_from_title(smartphone):
 	name = ""
 	for i in range(len(title)):
 		if(title[i].isdigit() and i > 0 and title[i-1] == " "):
-			for color in COLORS:
-				 name = name.lower().replace(color, "")
 			i_title = i 
 			break
-		name += title[i]
-			
+		else:
+			name += title[i].lower()
+			if(title[i] == " " or title[i]==','):
+				[ended, name] = is_word_in_string(name)
+				if(ended):
+					break
 	
 	specs += [name]
 	
@@ -31,10 +47,10 @@ def get_data_from_title(smartphone):
 				if(title[not_numbers].isdigit()):
 					break
 				elif(title[not_numbers] == " "):
-					i = not_numbers
+					i = not_numbers+1
 					break
 			for j in range(i-1, i-MAX_RAM_DIGITS, -1):
-				print(title)
+#				print(title)
 				if(title[j-1] != " "):
 					ram += title[j-1]
 				else:
@@ -59,7 +75,7 @@ def get_data_from_title(smartphone):
 				size += title[j]
 			break
 		if(title[i] == '.' or title[i] == ','):
-			print('hereee', title[i])
+#			print('hereee', title[i])
 			while(title[i] != " "):
 				i -= 1
 			
@@ -84,7 +100,7 @@ for obj in test_instances:
 for smartphone in only_smartphones:
 	smartphone = get_data_from_title(smartphone)
 
-[print(smartphone) for smartphone in only_smartphones]
+#[print(smartphone) for smartphone in only_smartphones]
 
 with open("extracted_info.tsv", "w", encoding = "utf-8") as record_file:
 			record_file.write("ID	TITLE	NAME	RAM	COLOR	SCREEN SIZE\n")
