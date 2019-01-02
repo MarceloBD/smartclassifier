@@ -10,6 +10,7 @@ MAX_SIZE_DIGITS = 10
 STOP_WORDS = ["com", "tela", "android", "-"]
 INSIDE_STOP_WORDS = [",", "."]
 SIDE_STOP_WORDS = ['+']
+FILTERED_WORDS_NAME = ['smartphone', 'celular']
 
 def is_valid_ram(ram):
 	if(len(ram) != 0 and (ram[-1]=='b' and ram[-2]=='g')):
@@ -175,6 +176,18 @@ def get_data_from_title(smartphone):
 	smartphone += [specs]
 	return smartphone
 
+def filter_name(smartphone):
+	title = smartphone[3][0].lower().split()
+	for word_i in range(len(title)-1, -1, -1):
+		for w in FILTERED_WORDS_NAME:
+			if(w in title[word_i]):
+				print(title[word_i], title)
+				del title[word_i]
+				print(title)
+				break
+	smartphone[3][0] = ' '.join(title) 
+	return smartphone
+
 
 filemng = File_manager()
 test_instances = filemng.get_instances_of_file(TEST_FILENAME)
@@ -185,6 +198,7 @@ for obj in test_instances:
 
 for smartphone in only_smartphones:
 	smartphone = get_data_from_title(smartphone)
+	smartphone = filter_name(smartphone)
 
 #[print(smartphone) for smartphone in only_smartphones]
 
