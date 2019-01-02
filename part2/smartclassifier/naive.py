@@ -41,26 +41,48 @@ class Naive:
 		for l in dic_list:
 			train_instances += [l]
 		'''
+		train_instances = []
 		
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		dic = ' '.join([word for word in dic.split() if len(word) > 4])
+		
+		
+		'''
+		for i in range(int(len(dic.split())/10)):
+			train_instances += [['dictionary from github', ' '.join(dic.split()[10*i:10*i]), 'nao-smartphone']]
+		for i in range(10):
+			for word in synonymous.split():
+				train_instances += [['category synonymous', word, 'smartphone']]
+				print(i)
+		'''
+		
+		'''
+		train_instances = []
+		len_syn = len(synonymous.split())
+		#train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		for i in range(int(len(dic)%len_syn)):
+			train_instances += [['dictionary from github', ' '.join(dic.split()[len_syn*i:len_syn*i]), 'nao-smartphone']]
+		
+		synonymous += ' celular'
+		train_instances += [['category synonymous', synonymous, 'smartphone']]
+		for j in range(i):
+			#lt = [synonymous.split()[int(j%len_syn)] for k in range(len_syn)]
+			#print(' '.join(lt))
+			train_instances += [['category synonymous', synonymous.split()[int(j%len_syn)], 'smartphone']]
+		'''
 		train_instances += [['category synonymous', synonymous, 'smartphone']]
 		train_instances += [['category synonymous', synonymous, 'smartphone']]
 		train_instances += [['category synonymous', synonymous, 'smartphone']]
-		
-		
+		train_instances += [['category synonymous', synonymous, 'smartphone']]
+		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
 		
 		count_vect = CountVectorizer()
 		x = [instance[1] for instance in train_instances]
 		X_train_counts = count_vect.fit_transform(x)
 
-		tfidf_transformer = TfidfTransformer()
+		tfidf_transformer = TfidfTransformer(use_idf=False)
 		X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 		
 		mnb = MultinomialNB()
