@@ -69,20 +69,54 @@ class Naive:
 			#print(' '.join(lt))
 			train_instances += [['category synonymous', synonymous.split()[int(j%len_syn)], 'smartphone']]
 		'''
+		'''
+		train_instances = []
 		train_instances += [['category synonymous', synonymous, 'smartphone']]
-		train_instances += [['category synonymous', synonymous, 'smartphone']]
-		train_instances += [['category synonymous', synonymous, 'smartphone']]
-		train_instances += [['category synonymous', synonymous, 'smartphone']]
+		#train_instances += [['category synonymous', synonymous, 'smartphone']]
+		#train_instances += [['category synonymous', synonymous, 'smartphone']]
+		#train_instances += [['category synonymous', synonymous, 'smartphone']]
+		#train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		#train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		#train_instances += [['dictionary from github', dic, 'nao-smartphone']]
 		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
-		train_instances += [['dictionary from github', dic, 'nao-smartphone']]
+		'''
+		'''
+		train_instances = []
+		train_instances += [['category synonymous', 'smartphone', 'smartphone']]
+		train_instances += [['category synonymous', 'smartphone', 'smartphone']]
+		train_instances += [['category synonymous', 'capa', 'nao-smartphone']]
+		train_instances += [['category synonymous', 'smartphone', 'nao-smartphone']]
+		'''
+		train_instances = []
+		'''
+		for i in range(len(dic.split())-1, -1, -1):
+			for word in synonymous.split():
+				if(dic.split()[i] == word):
+					del dic.split()[i]
+					break
+		'''
+		
+		dic_list = dic.split()
+		syn_list = synonymous.split()
+		syn_list += ['smartphone', 'celular', 'apple']
+		#print(dic_list)
+		print(syn_list)
+		for word in dic_list:
+			train_instances += [['dictionary from github', word, 'nao-smartphone']]
+
+		print(len(train_instances))
+		#for word in syn_list:
+		#	train_instances += [['category synonymous', word, 'smartphone']]
+		for i in range(len(dic_list)):
+			train_instances += [['category synonymous', syn_list[i%len(syn_list)], 'smartphone']]
+		print(len(train_instances))
+		
 		
 		count_vect = CountVectorizer()
 		x = [instance[1] for instance in train_instances]
 		X_train_counts = count_vect.fit_transform(x)
 
-		tfidf_transformer = TfidfTransformer(use_idf=False)
+		tfidf_transformer = TfidfTransformer(use_idf = False)
 		X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 		
 		mnb = MultinomialNB()
@@ -91,7 +125,9 @@ class Naive:
 		y_pred = mnb.fit(X_train_tfidf, y)
 
 		#docs_new = ['samsung', 'capa smartphone', 'colorido azul boneca', 'apple']
-		x = [instance[1] for instance in test_instances]
+		#[print(instance[1]) for instance in test_instances]
+		#[print(instance[1].split()[0]) for instance in test_instances]
+		x = [instance[1].split()[0].lower() for instance in test_instances]
 		docs_new = x
 		
 		X_new_counts = count_vect.transform(docs_new)
