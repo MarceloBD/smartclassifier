@@ -202,7 +202,9 @@ def check_similarity(smartphone1, smartphone2):
 				if(word1 == word2):
 					same_words += 1
 					break
-		if(max_len > 4 and same_words >= max_len-2):
+		if(max_len > 4 and same_words >= max_len-1):
+			return True
+		elif(max_len > 6 and same_words >= max_len-2):
 			return True
 		elif(max_len <= 4 and same_words == max_len):
 			return True
@@ -227,11 +229,12 @@ with open("extracted_info.tsv", "w", encoding = "utf-8") as record_file:
 					  "	"+ str(instance[3][2])+"	"+ str(instance[3][3])+"\n")
 matches = []
 for smartphone1 in only_smartphones:
-	m = []
-	for smartphone2 in only_smartphones:
-		if(smartphone1 != smartphone2):
-			if(check_similarity(smartphone1, smartphone2)):
-				m += [smartphone2[3][0]]
-	if(m != []):
+	m = [smartphone1[1]]
+	for smartphone2_i in range(len(only_smartphones)-1, -1, -1):
+		if(smartphone1 != only_smartphones[smartphone2_i]):
+			if(check_similarity(smartphone1, only_smartphones[smartphone2_i])):
+				m += [only_smartphones[smartphone2_i][1]]
+				del only_smartphones[smartphone2_i]
+	if(len(m) != 1):
 		matches += [m]			
 filemng.write_tsv('match_products.tsv', matches, ['NAME', 'MATCHES'])
