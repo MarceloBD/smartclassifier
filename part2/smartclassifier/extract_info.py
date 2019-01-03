@@ -25,8 +25,6 @@ def is_valid_ram(ram):
 		return True
 	return False
 
-
-
 def is_word_in_string(string):
 	for word in STOP_WORDS+COLORS:
 		if(' '+ word+' ' in string.lower() or ' '+ word+',' in string.lower()):
@@ -73,6 +71,7 @@ def get_data_from_title(smartphone):
 	title = smartphone[1]
 	i_title = 0
 	specs = []
+	
 	name = ""
 	for i in range(len(title)):
 		name += title[i].lower()
@@ -81,8 +80,7 @@ def get_data_from_title(smartphone):
 			if(ended):
 				break
 	
-	specs += [name]
-	
+	specs += [name]	
 	
 	ram = ""
 	i_ram = 0
@@ -96,7 +94,6 @@ def get_data_from_title(smartphone):
 					i = not_numbers+1
 					break
 			for j in range(i-1, i-MAX_RAM_DIGITS, -1):
-#				print(title)
 				if(title[j-1] != " "):
 					ram += title[j-1]
 				else:
@@ -131,7 +128,6 @@ def get_data_from_title(smartphone):
 			break
 	specs += [col]
 		
-	
 	size = ""
 	for i in range(len(title)):
 
@@ -165,7 +161,6 @@ def get_data_from_title(smartphone):
 							point = True
 				size += title[j]
 			break
-	#print(title)
 	if(len(size) > 5):
 		size = ''
 	for c_i in range(len(size)):
@@ -225,14 +220,11 @@ for smartphone in only_smartphones:
 	smartphone = get_data_from_title(smartphone)
 	smartphone = filter_name(smartphone)
 
-#[print(smartphone) for smartphone in only_smartphones]
-
 with open("extracted_info.tsv", "w", encoding = "utf-8") as record_file:
 			record_file.write("ID	TITLE	NAME	RAM	COLOR	SCREEN SIZE\n")
 			for instance in only_smartphones:
 				record_file.write(str(instance[0])+"	"+str(instance[1])+"	"+ str(instance[3][0])+"	"+ str(instance[3][1])+
 					  "	"+ str(instance[3][2])+"	"+ str(instance[3][3])+"\n")
-
 matches = []
 for smartphone1 in only_smartphones:
 	m = []
@@ -242,5 +234,4 @@ for smartphone1 in only_smartphones:
 				m += [smartphone2[3][0]]
 	if(m != []):
 		matches += [m]			
-print(matches)
 filemng.write_tsv('match_products.tsv', matches, ['NAME', 'MATCHES'])

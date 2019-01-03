@@ -1,5 +1,4 @@
 import aiohttp
-import asyncio
 
 class Datamuse():
 	def __init__(self):
@@ -9,5 +8,4 @@ class Datamuse():
 		async with  aiohttp.request('GET', 'http://api.datamuse.com/words?ml='+word) as response:
 			html = await response.text()
 
-		return html
-		
+		return html		

@@ -26,7 +26,7 @@ class File_manager:
 	def write_tsv(self, filename, rows, title):
 		with open(filename, "w", encoding = "utf-8") as record_file:
 			title_string = '	'.join(title)
-			record_file.write(title_string)
+			record_file.write(title_string+"\n")
 			for row in rows:
 				row_string = '	'.join(row)
 				record_file.write(row_string+"\n")

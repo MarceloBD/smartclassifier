@@ -45,8 +45,3 @@ class QuotesSpider(scrapy.Spider):
 			
 			print('=============================Specs', self.find_specifications(['Marca'], response), self.find_specifications(['Memória RAM'], response), 
 				 self.find_specifications(['Cor'], response), self.find_specifications(['Tamanho da Tela', 'Resolução', 'Resolução da tela'], response))
-			   
-			
-			with open("train_data.tsv", "a") as record_file:
-				record_file.write(str(response.url)+"	"+str(title)+"	"+ str('smartphone')+"\n")
-        
