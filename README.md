@@ -6,7 +6,7 @@ First part is in this directory and it was developed using Ubuntu 18.04
 
 1. python3 main.py
 
-#---------------------------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------------------#
 
 Second part is in the folder "part2" and it was developed in a Windows 10
 system with Anaconda3 plataform 
