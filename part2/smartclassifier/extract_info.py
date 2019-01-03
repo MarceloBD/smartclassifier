@@ -181,13 +181,38 @@ def filter_name(smartphone):
 	for word_i in range(len(title)-1, -1, -1):
 		for w in FILTERED_WORDS_NAME:
 			if(w in title[word_i]):
-				print(title[word_i], title)
 				del title[word_i]
-				print(title)
 				break
 	smartphone[3][0] = ' '.join(title) 
 	return smartphone
 
+def check_similarity(smartphone1, smartphone2):
+	if(smartphone1[3][1] != '' and smartphone2[3][1] != '' and 
+		smartphone1[3][1] != smartphone[3][1]):
+		return False
+	elif(smartphone1[3][3] != '' and smartphone2[3][3] != '' and 
+		smartphone1[3][3] != smartphone[3][3]):
+		return False
+	else:
+		string1 = smartphone1[3][0].split()
+		string2 = smartphone2[3][0].split()
+		if(len(string1) < len(string2)):
+			aux = string1
+			string1 = string2
+			string2 = aux
+		max_len = len(string1)
+		same_words = 0
+		for word1 in string1: 
+			for word2 in string2:
+				if(word1 == word2):
+					same_words += 1
+					break
+		if(max_len > 4 and same_words >= max_len-2):
+			return True
+		elif(max_len <= 4 and same_words == max_len):
+			return True
+		else:
+			return False
 
 filemng = File_manager()
 test_instances = filemng.get_instances_of_file(TEST_FILENAME)
@@ -207,3 +232,15 @@ with open("extracted_info.tsv", "w", encoding = "utf-8") as record_file:
 			for instance in only_smartphones:
 				record_file.write(str(instance[0])+"	"+str(instance[1])+"	"+ str(instance[3][0])+"	"+ str(instance[3][1])+
 					  "	"+ str(instance[3][2])+"	"+ str(instance[3][3])+"\n")
+
+matches = []
+for smartphone1 in only_smartphones:
+	m = []
+	for smartphone2 in only_smartphones:
+		if(smartphone1 != smartphone2):
+			if(check_similarity(smartphone1, smartphone2)):
+				m += [smartphone2[3][0]]
+	if(m != []):
+		matches += [m]			
+print(matches)
+filemng.write_tsv('match_products.tsv', matches, ['NAME', 'MATCHES'])
